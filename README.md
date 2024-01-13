@@ -1,5 +1,7 @@
 # Lynx
 
+⚠️ This repo is now deprecated and is for my benefit of continuing UIKit. The app was rewritten in SwiftUI and can be found [here](https://github.com/matthewfernst/Lynx)⚠️ 
+
 iOS App for Linking Slope Files for Mountain-UI
 
 <img src="Lynx/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="300" height="300"/>
