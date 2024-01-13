@@ -1,0 +1,64 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  deploy-serverless:
+    
+    name: Deploy CDK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: lynx-api/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Node Modules
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install --prefix lynx-api
+
+      - name: Create Lynx .env File
+        uses: iamsauravsharma/create-dotenv@v2.0.1
+        with:
+          input-prefix: 'LYNX_' # Needed To Prevent GitHub Variables From Propagating To Lambda
+          file-path: 'lynx-api/.env'
+        env:
+          LYNX_ALARM_EMAILS: ${{secrets.ALARM_EMAILS}}
+          LYNX_APPLE_CLIENT_ID: ${{ secrets.APPLE_CLIENT_ID }}
+          LYNX_APPLE_CLIENT_SECRET: ${{ secrets.APPLE_CLIENT_SECRET }}
+          LYNX_AUTH_KEY: ${{ secrets.AUTH_KEY }}
+          LYNX_ESCAPE_INVITE_HATCH: ${{ secrets.ESCAPE_INVITE_HATCH }}
+          LYNX_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          LYNX_NODE_ENV: "production"
+
+      - name: Build
+        run: npm run --prefix lynx-api build
+      
+      - name: Bootstrap
+        run: npm run --prefix lynx-api cdk bootstrap
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy
+        run: npm run --prefix lynx-api deploy
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}

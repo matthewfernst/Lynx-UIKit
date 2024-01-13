@@ -1,0 +1,13 @@
+query GetProfileInformation {
+  selfLookup {
+     id
+     oauthLoginIds {
+        type
+        id
+     }
+     email
+     firstName
+     lastName
+     profilePictureUrl
+  }
+}

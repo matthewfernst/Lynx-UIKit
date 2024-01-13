@@ -1,0 +1,26 @@
+mutation EditUser($userData: [UserDataPair!]!) {
+  editUser(userData: $userData) {
+    id
+    oauthLoginIds {
+        type
+        id
+    }
+    email
+    firstName
+    lastName
+    profilePictureUrl
+    logbook {
+      id
+      conditions
+      distance
+      duration
+      startDate
+      endDate
+      locationName
+      runCount
+      topSpeed
+      verticalDistance
+    }
+  }
+}
+

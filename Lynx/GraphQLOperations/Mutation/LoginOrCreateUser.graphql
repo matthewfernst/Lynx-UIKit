@@ -1,0 +1,10 @@
+mutation LoginOrCreateUser($oauthLoginId: OAuthTypeCorrelationInput!, $email: String, $userData: [UserDataPair!]) {
+  createUserOrSignIn(
+    oauthLoginId: $oauthLoginId
+    email: $email,
+    userData: $userData) {
+      token
+      expiryDate
+      validatedInvite
+    }
+}

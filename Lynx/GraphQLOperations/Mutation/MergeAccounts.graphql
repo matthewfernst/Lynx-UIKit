@@ -1,0 +1,9 @@
+mutation CombineOAuthAccounts($combineWith: OAuthTypeCorrelationInput!) {
+	combineOAuthAccounts(combineWith: $combineWith) {
+  	id
+    oauthLoginIds {
+    	type
+      id
+		}
+	}
+}

@@ -1,0 +1,30 @@
+query GetLogs($system: MeasurementSystem!) {
+    selfLookup {
+        logbook {
+            id
+            originalFileName
+            distance(system: $system)
+            conditions
+            duration
+            startDate
+            endDate
+            locationName
+            runCount
+            topSpeed(system: $system)
+            verticalDistance(system: $system)
+            details {
+                type
+                averageSpeed(system: $system)
+                distance(system: $system)
+                duration
+                startDate
+                endDate
+                maxAltitude(system: $system)
+                minAltitude(system: $system)
+                topSpeed(system: $system)
+                topSpeedAltitude(system: $system)
+                verticalDistance(system: $system)
+            }
+        }
+    }
+}

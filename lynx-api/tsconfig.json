@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "isolatedModules": true
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "NodeNext"
+        }
+    },
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "$schema": "https://json.schemastore.org/tsconfig"
+}
